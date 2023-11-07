@@ -2,15 +2,15 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import Home from './pages/Home'
 import Signin from './pages/SignIn.jsx'
 import Signup from './pages/SignUp.jsx'
-import About from './pages/About'
+import About from './pages/About.jsx'
 import Profile from './pages/Profile.jsx'
+import Header from './components/Header.jsx'
 
 function App() {
   return (
     <>
-
-    <h1>Hello world</h1>
       <BrowserRouter>
+        <Header />
         <Routes>
           <Route path='/' element={<Home />} />
           <Route path='/about' element={<About />} />
