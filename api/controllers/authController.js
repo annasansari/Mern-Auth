@@ -1,8 +1,9 @@
 import User from "../model/userSchema.js"
 import bcryptjs from 'bcryptjs'
+import errorHandler from "../utils/error.js";
 
 
-const signUp = async (req, res) => {
+const signUp = async (req, res, next) => {
     // console.log(req.body);
     const { username, email, password } = req.body
     let hashedPassword = bcryptjs.hashSync(password, 10);
@@ -11,7 +12,8 @@ const signUp = async (req, res) => {
         await newUser.save()
         res.status(201).json({ message: 'User Create Successfully' })
     } catch (error) {
-        res.status(500).json(error.message)
+        next(error)
+        // next(errorHandler(300, 'Something went wrong'))
     }
 }
 export default signUp
