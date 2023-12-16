@@ -10,7 +10,7 @@ const PORT = 3000;
 app.use(express.json())
 
 app.listen(PORT, () => {
-    console.log(`Server is running on port${PORT}`);
+    console.log(`Server is running on port ${PORT}`);
 })
 
 mongoose.connect(process.env.MONGO).then(() => {
