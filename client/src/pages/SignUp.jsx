@@ -16,6 +16,11 @@ function SignUp() {
       ...formData,
       [e.target.id]: e.target.value
     })
+<<<<<<< HEAD
+=======
+    console.log(formData);
+    console.log(formData.username);
+>>>>>>> 64c7fe769b04c68daaabc22bf4286491840d1c1f
 
     localStorage.setItem("userDetails", JSON.stringify({
       ...formData,
@@ -25,6 +30,10 @@ function SignUp() {
   const userInfo = localStorage.getItem('userDetails')
   const parsedData = JSON.parse(userInfo);
 
+<<<<<<< HEAD
+=======
+  console.log(parsedData.username);
+>>>>>>> 64c7fe769b04c68daaabc22bf4286491840d1c1f
   const submitHandler = async (e) => {
     e.preventDefault()
     try {
@@ -33,14 +42,20 @@ function SignUp() {
       setCheckSuccess(false)
       await axios.post('/api/auth/signup', formData)
         .then((res) => {
+<<<<<<< HEAD
           console.log(res);
           setCheckSuccess(true)
+=======
+          setCheckSuccess(true)
+          console.log(res.data.message);
+>>>>>>> 64c7fe769b04c68daaabc22bf4286491840d1c1f
           if (res.data.message == 'User Create Successfully') {
             setSuccess('Account created successfully!')
           }
           navigate('/signin')
         })
         .catch((err) => {
+<<<<<<< HEAD
           console.log(err.message);
           console.log(err.response.data.message)
           setError(true)
@@ -50,11 +65,25 @@ function SignUp() {
           if (err.response.data.message == `E11000 duplicate key error collection: test.users index: username_1 dup key: { username: "${parsedData.username}" }`) {
             setErrMsg(`Username or Email already been taken`)
           }
+=======
+          console.log(err.response.data.message);
+          setError(true)
+          if (err.response.data.message == `E11000 duplicate key error collection: test.users index: username_1 dup key: { username: "${parsedData.username}" }`) {
+            setErrMsg(`Username or Email already been taken`)
+          }
+          // if (err.message === 'Request failed with status code 500') {
+          //   setErrMsg("Something went wrong")
+          // }
+>>>>>>> 64c7fe769b04c68daaabc22bf4286491840d1c1f
         })
       setLoading(false)
     } catch (error) {
       setLoading(false)
+<<<<<<< HEAD
       setError(true)
+=======
+      setError(false)
+>>>>>>> 64c7fe769b04c68daaabc22bf4286491840d1c1f
     }
   }
 
@@ -70,7 +99,11 @@ function SignUp() {
       </form>
       <p className='text-green-600 ms-1 mt-3'>{checkSuccess ? success : ""}</p>
       <p className='text-red-600 ms-1'>{error ? errMsg : ""}</p>
+<<<<<<< HEAD
       <div className='flex gap-2 mt-1 ms-1'>
+=======
+      <div className='flex gap-2 mt-4 ms-1'>
+>>>>>>> 64c7fe769b04c68daaabc22bf4286491840d1c1f
         <p>Have an account?</p>
         <Link to={'/signin'}>
           <span className='text-blue-700 hover:underline'>Sign In</span>
