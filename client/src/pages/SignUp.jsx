@@ -11,56 +11,49 @@ function SignUp() {
     const [checkSuccess, setCheckSuccess] = useState(false)
     const navigate = useNavigate()
 
-
     const handleChange = (e) => {
         setFormData({
-          ...formData,
-          [e.target.id]: e.target.value
+            ...formData,
+            [e.target.id]: e.target.value
         })
-        console.log(formData);
-        console.log(formData.username);
         localStorage.setItem("userDetails", JSON.stringify({
-          ...formData,
-          [e.target.id]: e.target.value
+            ...formData,
+            [e.target.id]: e.target.value
         }))
-      }
-      const userInfo = localStorage.getItem('userDetails')
-      const parsedData = JSON.parse(userInfo);
-      
-      console.log(parsedData.username);
-      const submitHandler = async (e) => {
+    }
+    const userInfo = localStorage.getItem('userDetails')
+    const parsedData = JSON.parse(userInfo);
+
+    const submitHandler = async (e) => {
         e.preventDefault()
         try {
-          setError(false)
-          setLoading(true)
-          setCheckSuccess(false)
-          await axios.post('/api/auth/signup', formData)
-            .then((res) => {
-              console.log(res);
-              setCheckSuccess(true)
-              console.log(res.data.message);
-              if (res.data.message == 'User Create Successfully') {
-                setSuccess('Account created successfully!')
-              }
-              navigate('/signin')
-            })
-            .catch((err) => {
-              console.log(err.response.data.message)
-              setError(true)
-              // if (err.message === 'Request failed with status code 500') {
-              //   setErrMsg("Something went wrong")
-              // }
-              if (err.response.data.message == `E11000 duplicate key error collection: test.users index: username_1 dup key: { username: "${parsedData.username}" }`) {
-                setErrMsg(`Username or Email already been taken`)
-              }
-            })
-          setLoading(false)
+            setError(false)
+            setLoading(true)
+            setCheckSuccess(false)
+            await axios.post('/api/auth/signup', formData)
+                .then((res) => {
+                    setCheckSuccess(true)
+                    if (res.data.message == 'User Create Successfully') {
+                        setSuccess('Account created successfully!')
+                    }
+                    navigate('/signin')
+                    localStorage.clear()
+                })
+                .catch((err) => {
+                    setError(true)
+                    // if (err.message === 'Request failed with status code 500') {
+                    //   setErrMsg("Something went wrong")
+                    // }
+                    if (err.response.data.message == `E11000 duplicate key error collection: test.users index: username_1 dup key: { username: "${parsedData.username}" }`) {
+                        setErrMsg(`Username or Email already been taken`)
+                    }
+                })
+            setLoading(false)
         } catch (error) {
-          setLoading(false)
-          setError(true)
+            setLoading(false)
+            setError(true)
         }
-      }
-    
+    }
     return (
         <>
             <div className='p-3 max-w-lg mx-auto'>

@@ -11,7 +11,7 @@ function Header() {
                     <ul className='flex justify-center gap-4 cursor-pointer font-medium flex-wrap'>
                         <Link to={'/'}><li>Home</li></Link>
                         <Link to={'/about'}><li>About</li></Link>
-                        {/* <Link to={'/signin'}><li>Sign In</li> </Link> */}
+                        <Link to={'/signup'}><li>Sign Up</li> </Link>
                         <Link to={'/profile'}><li>Profile</li></Link>
                     </ul>
                 </div>
