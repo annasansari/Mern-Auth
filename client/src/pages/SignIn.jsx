@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import { signInStart, signInSuccess, signInFailure } from '../redux/user/userSlice';
 import { useDispatch, useSelector } from 'react-redux';
+import OAuth from '../components/OAuth';
 
 function SignIn() {
   const [hasError, setHasError] = useState(false);
@@ -36,7 +37,7 @@ function SignIn() {
 
       if (response.ok) {
         console.log(data);
-        // navigate('/profile')
+        navigate('/profile')
       } else {
         console.log(data);
         setHasError(true);
@@ -64,6 +65,7 @@ function SignIn() {
           <input className='border p-3 rounded-lg active:outline-none' onChange={handleChange} id='email' type="email" placeholder='Email' required />
           <input className='border p-3 rounded-lg active:outline-none' onChange={handleChange} id='password' type="password" placeholder='Password' required />
           <button className='bg-slate-800 border rounded-md p-2 text-white text-lg font-medium hover:opacity-80 uppercase' >{loading ? 'Loading...' : 'Sign In'}</button>
+          <OAuth />
         </form>
         <p className='text-red-600 ms-1 mt-2'>{hasError ? errMsg : ""}</p>
         <div className='flex gap-2 mt-1 ms-1'>
@@ -80,27 +82,27 @@ export default SignIn
 
 
 
-  // try {
-    //   dispatch(signInStart());
-    //   await axios.post('/api/auth/Signin', formData)
-    //     .then((res) => {
-    //       console.log(res);
-    //       dispatch(signInSuccess(res.data));
-    //       // navigate('/profile')
-    //     })
-    //     .catch((err) => {
-    //       console.log(err);
-    //       setHasError(true)
-    //       if (err.response.data.message === 'User not found') {
-    //         setErrMsg('User not found')
-    //       }
-    //       if (err.response.data.message === 'Wrong credentials') {
-    //         setErrMsg('Wrong credentials!')
-    //       }
-    //       dispatch(signInSuccess());
-    //     })
-    // } catch (error) {
-    //   dispatch(signInFailure(error));
-    //   console.log(error);
-    //   // setError(true)
-    // }
+// try {
+//   dispatch(signInStart());
+//   await axios.post('/api/auth/Signin', formData)
+//     .then((res) => {
+//       console.log(res);
+//       dispatch(signInSuccess(res.data));
+//       // navigate('/profile')
+//     })
+//     .catch((err) => {
+//       console.log(err);
+//       setHasError(true)
+//       if (err.response.data.message === 'User not found') {
+//         setErrMsg('User not found')
+//       }
+//       if (err.response.data.message === 'Wrong credentials') {
+//         setErrMsg('Wrong credentials!')
+//       }
+//       dispatch(signInSuccess());
+//     })
+// } catch (error) {
+//   dispatch(signInFailure(error));
+//   console.log(error);
+//   // setError(true)
+// }
