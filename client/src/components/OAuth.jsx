@@ -4,38 +4,12 @@ import { app } from '../firebase/firebase'
 import { signInSuccess } from '../redux/user/userSlice.js'
 import { useDispatch } from 'react-redux'
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom'
 
 function OAuth() {
     const dispatch = useDispatch()
+    const navigate = useNavigate()
 
-    // const handleGoogleClick = async () => {
-    //     try {
-    //         const provider = new GoogleAuthProvider()
-    //         const auth = getAuth(app)
-
-    //         const result = await signInWithPopup(auth, provider)
-    //         const { email, displayName, photoURL } = result.user
-
-    //         const response = await fetch('/api/auth/google', {
-    //             method: 'POST',
-    //             headers: {
-    //                 'Content-Type': 'application/json',
-    //             },
-    //             body: JSON.stringify({
-    //                 displayName,
-    //                 email,
-    //                 photoURL
-    //             }),
-    //         });
-
-    //         const data = await response.json();
-    //         console.log(data)
-    //         dispatch(signInSuccess(data))
-
-    //     } catch (error) {
-    //         console.log('Could not login with google', error)
-    //     }
-    // }
     const handleGoogleClick = async () => {
         try {
             const provider = new GoogleAuthProvider()
@@ -54,8 +28,10 @@ function OAuth() {
             console.log(data);
             dispatch(signInSuccess(data));
 
+            navigate('/profile')
+
         } catch (error) {
-            console.log('Could not login with google', error);
+            console.log("Could'nt login with google", error);
         }
     }
     return (

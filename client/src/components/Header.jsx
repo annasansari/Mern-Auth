@@ -1,8 +1,11 @@
-import React from 'react'
+import React, { useState } from 'react'
+import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 
 
 function Header() {
+    const { currentUser } = useSelector(state => state.user)
+    console.log(currentUser);
     return (
         <>
             <div className="bg-slate-300">
@@ -11,11 +14,16 @@ function Header() {
                     <ul className='flex justify-center gap-4 cursor-pointer font-medium flex-wrap'>
                         <Link to={'/'}><li>Home</li></Link>
                         <Link to={'/about'}><li>About</li></Link>
-                        <Link to={'/signup'}><li>Sign Up</li> </Link>
-                        <Link to={'/profile'}><li>Profile</li></Link>
+                        <Link to={'/profile'}>
+                            {currentUser ? (
+                                <img className='w-7 h-7 rounded-full object-cover' src={currentUser.profilePicture} />
+                            ) :
+                                <li>Sign Up</li>
+                            }
+                        </Link>
                     </ul>
                 </div>
-            </div>
+            </div >
         </>
     )
 }
