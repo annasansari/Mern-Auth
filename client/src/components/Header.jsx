@@ -5,7 +5,6 @@ import { Link } from 'react-router-dom'
 
 function Header() {
     const { currentUser } = useSelector(state => state.user)
-    console.log(currentUser);
     return (
         <>
             <div className="bg-slate-300">

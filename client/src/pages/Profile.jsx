@@ -53,7 +53,8 @@ function Profile() {
         <form className='flex flex-col gap-3'>
           <div className='flex self-center border-red-300'>
 
-            <img className='h-24 w-24 rounded-full object-cover self-center bg-slate-500' src={currentUser.profilePicture} alt="" />
+            <img className='h-24 w-24 rounded-full object-cover self-center bg-slate-500' src={
+              formData.profilePicture || currentUser.profilePicture} alt="" />
 
             <input type="file" id='file' className='hidden' accept='image/*' onChange={(e) => setImage(e.target.files[0])} />
             <label className='absolute ms-[4.8rem] mt-[3.9rem] bg-white p-1 rounded-full shadow-lg' htmlFor="file"><img className='w-4 cursor-pointer' src={camera} alt="" /></label>
