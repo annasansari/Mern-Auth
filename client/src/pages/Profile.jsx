@@ -3,8 +3,9 @@ import { useSelector } from 'react-redux'
 import camera from '../assets/camera.png'
 import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage'
 import { storage } from '../firebase/firebase.js'
-import { updateUserStart, updateUserSuccess, updateUserFailure, signInFailure } from '../redux/user/userSlice.js'
+import { updateUserStart, updateUserSuccess, updateUserFailure, deleteUserStart, deleteUserSuccess, deleteUserFailure } from '../redux/user/userSlice.js'
 import { useDispatch } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 
 function Profile() {
   const fileRef = useRef(null)
@@ -15,6 +16,7 @@ function Profile() {
   const [imageErr, setImageErr] = useState('')
   const [success, setSuccess] = useState(false)
   const dispatch = useDispatch()
+  const navigate = useNavigate()
 
 
   useEffect(() => {
@@ -75,6 +77,23 @@ function Profile() {
       dispatch(updateUserFailure(error))
     }
   }
+
+  const handleDelete = async () => {
+    try {
+      dispatch(deleteUserStart())
+      const res = await fetch(`/api/user/delete/${currentUser._id}`, {
+        method: 'DELETE',
+      });
+      const data = await res.json();
+      if (data.success === false) {
+        dispatch(deleteUserFailure(data))
+        return;
+      }
+      dispatch(deleteUserSuccess(data))
+    } catch (error) {
+      dispatch(deleteUserFailure(error))
+    }
+  }
   return (
     <>
       <div className='p-3 max-w-lg mx-auto'>
@@ -107,11 +126,11 @@ function Profile() {
           <button className='bg-slate-800 border rounded-md p-2 text-white text-lg font-medium hover:opacity-80 uppercase'>{loading ? "updating..." : 'update'}</button>
         </form>
         <div className='flex justify-between mt-2'>
-          <p className='text-red-600 font-semibold cursor-pointer'>Delete account?</p>
+          <p className='text-red-600 font-semibold cursor-pointer' onClick={handleDelete}>Delete account?</p>
           <p className='text-red-600 font-semibold cursor-pointer'>Sign Out</p>
         </div>
         <div>
-          <p className='text-red-600 mt-1 font-semibold'>{error ? 'Something went wrong' : ""}</p>
+          {/* <p className='text-red-600 mt-1 font-semibold'>{error ? 'Something went wrong' : ""}</p> */}
           <p className='text-green-600 mt-1 font-semibold'>{success ? 'User Updated successfully!' : ""}</p>
         </div>
       </div>
