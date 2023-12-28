@@ -42,10 +42,7 @@ function SignUp() {
                 })
                 .catch((err) => {
                     setError(true)
-                    // if (err.message === 'Request failed with status code 500') {
-                    //   setErrMsg("Something went wrong")
-                    // }
-                    if (err.response.data.message == `E11000 duplicate key error collection: test.users index: username_1 dup key: { username: "${parsedData.username}" }`) {
+                    if (err.response.data.message == `E11000 duplicate key error collection: test.users index: username_1 dup key: { username: "${parsedData.username}" }` || err.response.data.message == `E11000 duplicate key error collection: test.users index: email_1 dup key: { email: "${parsedData.email}" }`) {
                         setErrMsg(`Username or Email already been taken`)
                     }
                 })

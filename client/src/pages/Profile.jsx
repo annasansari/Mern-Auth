@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux'
 import camera from '../assets/camera.png'
 import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage'
 import { storage } from '../firebase/firebase.js'
-import { updateUserStart, updateUserSuccess, updateUserFailure, deleteUserStart, deleteUserSuccess, deleteUserFailure } from '../redux/user/userSlice.js'
+import { updateUserStart, updateUserSuccess, updateUserFailure, deleteUserStart, deleteUserSuccess, deleteUserFailure, signOutStart, signOutSuccess, signOutFailure } from '../redux/user/userSlice.js'
 import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 
@@ -16,7 +16,7 @@ function Profile() {
   const [imageErr, setImageErr] = useState('')
   const [success, setSuccess] = useState(false)
   const dispatch = useDispatch()
-  const navigate = useNavigate()
+  const [password, setPassword] = useState('')
 
 
   useEffect(() => {
@@ -94,6 +94,15 @@ function Profile() {
       dispatch(deleteUserFailure(error))
     }
   }
+
+  const handleSignOut = async () => {
+    try {
+      await fetch('/api/auth/signout');
+      dispatch(signOutSuccess())
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <>
       <div className='p-3 max-w-lg mx-auto'>
@@ -122,12 +131,13 @@ function Profile() {
 
           <input onChange={handleChange} defaultValue={currentUser.username} className='border p-3 rounded-lg active:outline-none' type="text" placeholder='Username' id='username' />
           <input onChange={handleChange} defaultValue={currentUser.email} className='border p-3 rounded-lg active:outline-none' type="email" placeholder='Email' id='email' />
-          <input onChange={handleChange} className='border p-3 rounded-lg active:outline-none' type="password" placeholder='Password' id='password' />
+          <label htmlFor="password" className='text-orange-600 font-semibold ms-1'>Must enter old password!</label>
+          <input onChange={handleChange} className='border p-3 rounded-lg active:outline-none' type="password" placeholder='Password' id='password' required />
           <button className='bg-slate-800 border rounded-md p-2 text-white text-lg font-medium hover:opacity-80 uppercase'>{loading ? "updating..." : 'update'}</button>
         </form>
         <div className='flex justify-between mt-2'>
           <p className='text-red-600 font-semibold cursor-pointer' onClick={handleDelete}>Delete account?</p>
-          <p className='text-red-600 font-semibold cursor-pointer'>Sign Out</p>
+          <p className='text-red-600 font-semibold cursor-pointer' onClick={handleSignOut}>Sign Out</p>
         </div>
         <div>
           {/* <p className='text-red-600 mt-1 font-semibold'>{error ? 'Something went wrong' : ""}</p> */}
